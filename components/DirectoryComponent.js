@@ -9,14 +9,15 @@ function Directory(props) {
             <ListItem
                 title={item.name}
                 subtitle={item.description}
-                leftAvatar={{ source: require('./images/react-lake.jpg')}}
+                onPress={() => props.onPress(item.id)}
+                leftAvatar={{ source: require('./images/noahwild.jpg')}}
             />
         );
     };
 
     return (
         <FlatList
-            data={props.campsites}
+            data={props.animals}
             renderItem={renderDirectoryItem}
             keyExtractor={item => item.id.toString()}
         />

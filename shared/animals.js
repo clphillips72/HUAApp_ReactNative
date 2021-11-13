@@ -2,7 +2,7 @@ export const ANIMALS = [
     {
         id: 0,
         name: "Tenny",
-        image: "../assets/img/noahwild.jpg",
+        image: "./images/noahwild.jpg",
         elevation: 1233,
         featured: false,
         description: "Tenny description"
@@ -10,7 +10,7 @@ export const ANIMALS = [
     {
         id: 1,
         name: "Tatum",
-        image: "../assets/img/noahwild.jpg",
+        image: "./images/noahwild.jpg",
         elevation: 877,
         featured: false,
         description: "Tatum description."
@@ -18,7 +18,7 @@ export const ANIMALS = [
     {
         id: 2,
         name:"Olaf",
-        image: "../assets/img/noahwild.jpg",
+        image: "./images/noahwild.jpg",
         elevation: 2901,
         featured: false,
         description: "Olaf description."
@@ -26,7 +26,7 @@ export const ANIMALS = [
     {
         id: 3,
         name:"Jadie",
-        image: "../assets/img/noahwild.jpg",
+        image: "./images/noahwild.jpg",
         elevation: 42,
         featured: true,
         description: "Jadie description."
