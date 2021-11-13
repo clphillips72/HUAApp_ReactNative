@@ -4,7 +4,7 @@ export const ANIMALS = [
         name: "Tenny",
         image: "./images/noahwild.jpg",
         elevation: 1233,
-        featured: false,
+        featured: true,
         description: "Tenny description"
     },
     {
@@ -28,7 +28,7 @@ export const ANIMALS = [
         name:"Jadie",
         image: "./images/noahwild.jpg",
         elevation: 42,
-        featured: true,
+        featured: false,
         description: "Jadie description."
     }
 ];
