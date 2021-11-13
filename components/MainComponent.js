@@ -1,8 +1,32 @@
 import React, { Component } from 'react';
+import { View, Platform } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
 import Directory from './DirectoryComponent';
 import AnimalInfo from './AnimalInfoComponent';
 import { ANIMALS } from '../shared/animals';
-import { View } from 'react-native';
+import Constants from 'expo-constants';
+
+const DirectoryNavigator = createStackNavigator(
+    {
+        Directory: { screen: Directory },
+        AnimalInfo: { screen: AnimalInfo }
+    }, 
+    {
+        initialRouteName: 'Directory',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+);
+
+const AppNavigator = createAppContainer(DirectoryNavigator);
 
 class Main extends Component {
     constructor(props) {
@@ -19,18 +43,14 @@ class Main extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
-                <Directory 
-                    animals={this.state.animals} 
-                    onPress={animalId => this.onAnimalSelect(animalId)}
-                />
-                <AnimalInfo
-                    animal={this.state.animals.filter(
-                        animal => animal.id === this.state.selectedAnimal)[0]}
-                />
-                
+            <View
+                style={{
+                    flex: 1,
+                    paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
+            }}>
+                <AppNavigator />
             </View>
-        )
+        );
     }
 }
 
