@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { Card } from 'react-native-elements';
+import { ScrollView, Text, View } from 'react-native';
+import { Card, Icon } from 'react-native-elements';
 import { ANIMALS } from '../shared/animals';
 
-function RenderAnimal({animal}) {
+function RenderAnimal(props) {
+
+    const { animal } = props;
+
     if (animal) {
         return (
             <Card 
@@ -13,6 +16,15 @@ function RenderAnimal({animal}) {
                 <Text style={{margin: 10}}>
                     {animal.description}
                 </Text>
+                <Icon
+                    name={props.favorite ? 'heart' : 'heart-o'}
+                    type='font-awesome'
+                    color='#f50'
+                    raised
+                    reverse
+                    onPress={() => props.favorite ? 
+                    console.log('Already set as a favorite') : props.markFavorite()}
+                />
             </Card>
         );
     }
@@ -23,16 +35,27 @@ class AnimalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            animals: ANIMALS
+            animals: ANIMALS,
+            favorite: false
         };
     }
     static navigationOptions = {
         title: 'Animal Information'
     }
+    markFavorite() {
+        this.setState({favorite: true});
+    }
     render() {
         const animalId = this.props.navigation.getParam('animalId');
         const animal = this.state.animals.filter(animal => animal.id === animalId)[0];
-        return <RenderAnimal animal={animal} />;
+        return (
+            <ScrollView>
+                <RenderAnimal animal={animal} 
+                    favorite={this.state.favorite}
+                    markFavorite={() => this.markFavorite()}
+                />
+            </ScrollView>
+        )
     }
     
 }
