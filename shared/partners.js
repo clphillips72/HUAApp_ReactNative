@@ -1,7 +1,7 @@
 export const PARTNERS = [
     {
       id: 0,
-      imgSrc: "../../assets/img/adopt-hover.jpg",
+      imgSrc: "./images/adopt-hover.jpg",
       featured: true,
       description: `Hearts United for Animals is determined to place each dog and cat in the right home for that particular animal. We take lots of time to get to know each one and can tell you in detail about their personalities.
       We have an application process. The application asks information that helps us determine whether the home would be the right one for that animal.`
