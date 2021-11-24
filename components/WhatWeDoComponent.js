@@ -1,8 +1,14 @@
 import React, { Component} from 'react';
 import { Text, ScrollView, FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import { PARTNERS } from '../shared/partners';
-import { Card } from 'react-native-elements';
+import { Card, ListItem } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        partners: state.partners
+    };
+};
 
 function Mission() {
     return(
@@ -17,13 +23,6 @@ function Mission() {
 
 class WhatWeDo extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            partners: PARTNERS
-        }
-    }
-
     static navigationOptions = {
         title: 'What We Do'
     }
@@ -31,11 +30,12 @@ class WhatWeDo extends Component {
     render() {
 
         const renderPartner = ({item}) => {
+            console.log(item.image)
             return (
                 <ListItem
                     title={item.name}
                     subtitle={item.description}                    
-                    leftAvatar={{ source: require('./images/adopt-hover.jpg')}}
+                    leftAvatar={{source: {uri: baseUrl + item.image}}}
                 />
             );
         };
@@ -45,7 +45,7 @@ class WhatWeDo extends Component {
                 <Mission />
                 <Card title="Community Partners">
                     <FlatList
-                        data={this.state.partners}
+                        data={this.props.partners.partners}
                         renderItem={renderPartner}
                         keyExtractor={item => item.id.toString()}
                     />
@@ -55,4 +55,4 @@ class WhatWeDo extends Component {
         }
     }
     
-    export default WhatWeDo; 
+    export default connect(mapStateToProps)(WhatWeDo);

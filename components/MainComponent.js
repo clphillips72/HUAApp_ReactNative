@@ -11,6 +11,15 @@ import Home from './HomeComponent';
 import Constants from 'expo-constants';
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
+import { connect } from 'react-redux';
+import { fetchAnimals, fetchShoppingPartners,
+    fetchPartners } from '../redux/ActionCreators';
+
+const mapDispatchToProps = {
+    fetchAnimals,
+    fetchShoppingPartners,
+    fetchPartners
+};
 
 const DirectoryNavigator = createStackNavigator(
     {
@@ -194,6 +203,13 @@ const MainNavigator = createDrawerNavigator(
 const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {
+
+    componentDidMount() {
+        this.props.fetchAnimals();
+        this.props.fetchShoppingPartners();
+        this.props.fetchPartners();
+    }
+
     render() {
         return (
             <View style={{
@@ -235,4 +251,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Main;
+export default connect(null, mapDispatchToProps)(Main);

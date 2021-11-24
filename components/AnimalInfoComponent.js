@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { ANIMALS } from '../shared/animals';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        animals: state.animals
+    };
+};
 
 function RenderAnimal(props) {
 
@@ -11,7 +19,7 @@ function RenderAnimal(props) {
         return (
             <Card 
                 featuredTitle={animal.name}
-                image={require('./images/noahwild.jpg')}
+                image={{uri: baseUrl + animal.image}}
             >
                 <Text style={{margin: 10}}>
                     {animal.description}
@@ -35,10 +43,10 @@ class AnimalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            animals: ANIMALS,
             favorite: false
         };
     }
+
     static navigationOptions = {
         title: 'Animal Information'
     }
@@ -47,7 +55,7 @@ class AnimalInfo extends Component {
     }
     render() {
         const animalId = this.props.navigation.getParam('animalId');
-        const animal = this.state.animals.filter(animal => animal.id === animalId)[0];
+        const animal = this.props.animals.animals.filter(animal => animal.id === animalId)[0];
         return (
             <ScrollView>
                 <RenderAnimal animal={animal} 
@@ -56,8 +64,7 @@ class AnimalInfo extends Component {
                 />
             </ScrollView>
         )
-    }
-    
+    }    
 }
 
-export default AnimalInfo;
+export default connect(mapStateToProps)(AnimalInfo);

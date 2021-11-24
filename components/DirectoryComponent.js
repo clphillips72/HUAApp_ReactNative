@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { ANIMALS } from '../shared/animals';
+import { Tile } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        animals: state.animals
+    };
+};
 
 class Directory extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            animals: ANIMALS
-        }
-    }
 
     static navigationOptions = {
         title: 'Directory'
@@ -20,18 +23,19 @@ class Directory extends Component {
         const { navigate } = this.props.navigation;
         const renderDirectoryItem = ({item}) => {
             return (
-                <ListItem
+                <Tile
                     title={item.name}
-                    subtitle={item.description}
+                    caption={item.description}
+                    featured
                     onPress={() => navigate('AnimalInfo', { animalId: item.id })}
-                    leftAvatar={{ source: require('./images/noahwild.jpg')}}
+                    imageSrc={{uri: baseUrl + item.image}}
                 />
             );
         };
 
         return (
             <FlatList
-                data={this.state.animals}
+                data={this.props.animals.animals}
                 renderItem={renderDirectoryItem}
                 keyExtractor={item => item.id.toString()}
             />
@@ -39,4 +43,4 @@ class Directory extends Component {
     }
 }
 
-export default Directory;
+export default connect(mapStateToProps)(Directory);
