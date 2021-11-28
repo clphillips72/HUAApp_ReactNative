@@ -6,6 +6,7 @@ import { createAppContainer } from 'react-navigation';
 import Directory from './DirectoryComponent';
 import AnimalInfo from './AnimalInfoComponent';
 import SearchAnimals from './SearchAnimalsComponent';
+import Favorites from './FavoritesComponent';
 import WhatWeDo from './WhatWeDoComponent';
 import Contact from './ContactComponent';
 import Home from './HomeComponent';
@@ -88,7 +89,7 @@ const SearchAnimalsNavigator = createStackNavigator(
                 color: '#fff'
             },
             headerLeft: <Icon
-                name='fa-search'
+                name='search'
                 type='font-awesome'
                 iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
@@ -97,6 +98,28 @@ const SearchAnimalsNavigator = createStackNavigator(
     }
 );
 
+const FavoritesNavigator = createStackNavigator(
+    {
+        Favorites: { screen: Favorites }
+    }, 
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='search'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
 
 const WhatWeDoNavigator = createStackNavigator(
     {
@@ -196,7 +219,21 @@ const MainNavigator = createDrawerNavigator(
                 drawerLabel: 'Search Animals',
                 drawerIcon: ({tintColor}) => (
                     <Icon
-                        name='fa-search'
+                        name='search'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        Favorites: {
+            screen: FavoritesNavigator,
+            navigationOptions: {
+                drawerLabel: 'My Favorites',
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='heart'
                         type='font-awesome'
                         size={24}
                         color={tintColor}
