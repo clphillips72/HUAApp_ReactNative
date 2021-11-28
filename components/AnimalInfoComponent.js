@@ -4,11 +4,17 @@ import { Card, Icon } from 'react-native-elements';
 import { ANIMALS } from '../shared/animals';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import { postFavorite } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
-        animals: state.animals
+        animals: state.animals,
+        favorites: state.favorites
     };
+};
+
+const mapDispatchToProps = {
+    postFavorite: animalId => (postFavorite(animalId))
 };
 
 function RenderAnimal(props) {
@@ -40,31 +46,27 @@ function RenderAnimal(props) {
 }
 
 class AnimalInfo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            favorite: false
-        };
-    }
 
     static navigationOptions = {
         title: 'Animal Information'
     }
-    markFavorite() {
-        this.setState({favorite: true});
+
+    markFavorite(animalId) {
+        this.props.postFavorite(animalId);
     }
+
     render() {
         const animalId = this.props.navigation.getParam('animalId');
         const animal = this.props.animals.animals.filter(animal => animal.id === animalId)[0];
         return (
             <ScrollView>
                 <RenderAnimal animal={animal} 
-                    favorite={this.state.favorite}
-                    markFavorite={() => this.markFavorite()}
+                    favorite={this.props.favorites.includes(animalId)}
+                    markFavorite={() => this.markFavorite(animalId)}
                 />
             </ScrollView>
         )
     }    
 }
 
-export default connect(mapStateToProps)(AnimalInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(AnimalInfo);
