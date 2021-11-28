@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
-import { ANIMALS } from '../shared/animals';
-import { SHOPPINGPARTNERS } from '../shared/shoppingPartners';
-import { PARTNERS } from '../shared/partners';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
 
 const mapStateToProps = state => {
     return {
@@ -15,7 +13,18 @@ const mapStateToProps = state => {
     };
 };
 
-function RenderItem({item}) {
+function RenderItem(props) {
+    const {item} = props;
+    if (props.isLoading) {
+        return <Loading />;
+    }
+    if (props.errMess) {
+        return (
+            <View>
+                <Text>{props.errMess}</Text>
+            </View>
+        );
+    }
     if (item) {
         return (
             <Card
@@ -43,12 +52,19 @@ class Home extends Component {
             <ScrollView>
                 <RenderItem 
                     item={this.props.animals.animals.filter(animal => animal.featured)[0]}
+                    isLoading={this.props.animals.isLoading}
+                    errMess={this.props.animals.errMess}
                 />
                 <RenderItem 
                     item={this.props.shoppingPartners.shoppingPartners.filter(shoppingPartner => shoppingPartner.featured)[0]}
+                    isLoading={this.props.shoppingPartners.isLoading}
+                    errMess={this.props.shoppingPartners.errMess}
                 />
                 <RenderItem 
                     item={this.props.partners.partners.filter(partner => partner.featured)[0]}
+                    isLoading={this.props.partners.isLoading}
+                    errMess={this.props.partners.errMess}
+
                 />
             </ScrollView>
         );

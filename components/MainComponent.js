@@ -116,7 +116,7 @@ const ContactNavigator = createStackNavigator(
                 onPress={() => navigation.toggleDrawer()}
             />
         })
-    }
+    } 
 );
 
 const CustomDrawerContentComponent = props => (
