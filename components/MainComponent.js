@@ -5,6 +5,7 @@ import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 import Directory from './DirectoryComponent';
 import AnimalInfo from './AnimalInfoComponent';
+import SearchAnimals from './SearchAnimalsComponent';
 import WhatWeDo from './WhatWeDoComponent';
 import Contact from './ContactComponent';
 import Home from './HomeComponent';
@@ -72,6 +73,30 @@ const HomeNavigator = createStackNavigator(
         })
     }
 );
+
+const SearchAnimalsNavigator = createStackNavigator(
+    {
+        SearchAnimals: { screen: SearchAnimals }
+    }, 
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='fa-search'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
+
 
 const WhatWeDoNavigator = createStackNavigator(
     {
@@ -158,6 +183,20 @@ const MainNavigator = createDrawerNavigator(
                 drawerIcon: ({tintColor}) => (
                     <Icon
                         name='list'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        SearchAnimals: {
+            screen: SearchAnimalsNavigator,
+            navigationOptions: {
+                drawerLabel: 'Search Animals',
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='fa-search'
                         type='font-awesome'
                         size={24}
                         color={tintColor}
