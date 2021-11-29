@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 class Contact extends Component {
 
@@ -9,7 +10,7 @@ class Contact extends Component {
 
     render() {
         return(
-            <ScrollView>
+            <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
                 <View>
                     <Text style={styles.loadingHeader}>Contact HUA</Text>
                     <Text style={styles.loadingText}>By Mail</Text>
@@ -43,7 +44,7 @@ class Contact extends Component {
 
                     <Text>Please call us at 1-402-274-3679 or email at hua@hua.org for additional information</Text>
                 </View>
-            </ScrollView>
+            </Animatable.View>
         );
     }
 }
