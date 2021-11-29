@@ -122,3 +122,8 @@ export const addFavorite = animalId => ({
     type: ActionTypes.ADD_FAVORITE,
     payload: animalId
 });
+
+export const deleteFavorite = animalId => ({
+    type: ActionTypes.DELETE_FAVORITE,
+    payload: animalId
+}); 
