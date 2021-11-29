@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View, FlatList, PanResponder } from 'react-native';
+import { ScrollView, Text, View, FlatList, PanResponder, Alert } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 // import { ANIMALS } from '../shared/animals';
 import { connect } from 'react-redux';
@@ -22,10 +22,16 @@ function RenderAnimal(props) {
 
     const { animal } = props;
 
+    const view = React.createRef();
+
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+            view.current.rubberBand(1000)
+            .then(endState => console.log(endState.finished ? 'finished' : 'canceled'));
+        },
         onPanResponderEnd: (e, gestureState) => {
             console.log('pan responder end', gestureState);
             if (recognizeDrag(gestureState)) {
@@ -57,6 +63,7 @@ function RenderAnimal(props) {
                 animation='fadeInDown'
                 duration={2000}
                 delay={1000}
+                ref={view}
                 {...panResponder.panHandlers}>
                 <Card 
                     featuredTitle={animal.name}
