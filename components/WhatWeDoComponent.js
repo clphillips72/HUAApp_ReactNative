@@ -67,14 +67,16 @@ class WhatWeDo extends Component {
 
         return(
             <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
-                <Mission />
-                <Card title="Community Partners">
-                    <FlatList
-                        data={this.props.partners.partners}
-                        renderItem={renderPartner}
-                        keyExtractor={item => item.id.toString()}
-                    />
-                </Card>
+                <ScrollView>
+                    <Mission />
+                    <Card title="Community Partners">
+                        <FlatList
+                            data={this.props.partners.partners}
+                            renderItem={renderPartner}
+                            keyExtractor={item => item.id.toString()}
+                        />
+                    </Card>
+                </ScrollView>
             </Animatable.View>
             );
         }
