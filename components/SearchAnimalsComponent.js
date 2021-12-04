@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Text, View, ScrollView, StyleSheet,
-    Picker, Button, Modal } from 'react-native';
+    Picker, Button, Modal, Alert } from 'react-native';
+import * as Notifications from 'expo-notifications';
 
 class SearchAnimals extends Component {
 
@@ -27,6 +28,54 @@ class SearchAnimals extends Component {
     handleSearch() {
         console.log(JSON.stringify(this.state));
         this.toggleModal();
+
+        // Alert.alert(
+        //     'Begin Search?',
+        //     'Number of Campers: ' + this.state.campers + "\n" +
+        //     'Hike in? ' + this.state.hikeIn + "\n" +
+        //     'Date: ' + this.state.date,
+        //     [
+        //         {
+        //             text: 'Cancel',
+        //             style: 'cancel',
+        //             onPress: () => this.resetForm()
+        //         },
+        //         {
+        //             text: 'OK',
+        //             onPress: () => {
+        //                 this.presentLocalNotification(this.state.animalSize);
+        //                 this.resetForm();
+        //             }
+        //         }
+        //     ],
+        //     { cancelable: false }
+        // );
+    }
+
+    async presentLocalNotification(animalSize, animalAge, animalBreed, animalGender) {
+        function sendNotification() {
+            Notifications.setNotificationHandler({
+                handleNotification: async () => ({
+                    shouldShowAlert: true
+                })
+            });
+
+            Notifications.scheduleNotificationAsync({
+                content: {
+                    title: 'Your Animal Search',
+                    body: `Search for size: ${animalSize}, age: ${animalAge}, breed: ${animalBreed} and gender: ${animalGender} requested`
+                },
+                trigger: null
+            });
+        }
+
+        let permissions = await Notifications.getPermissionsAsync();
+        if (!permissions.granted) {
+            permissions = await Notifications.requestPermissionsAsync();
+        }
+        if (permissions.granted) {
+            sendNotification();
+        }
     }
 
     resetForm() {
@@ -89,7 +138,12 @@ class SearchAnimals extends Component {
                     <Text style={styles.formLabel}>Animal Gender</Text>
                     <Picker
                         style={styles.formItem}
-                        selectedValue={this.state.animalGender}
+                        selectedValue={
+                            this.state.animalGender,
+                            this.state.animalAge,
+                            this.state.animalBreed,
+                            this.state.animalGender
+                        }
                         onValueChange={itemValue => this.setState({animalGender: itemValue})}
                     >
                         <Picker.Item label='Select' value='Not Selected' />
@@ -126,6 +180,15 @@ class SearchAnimals extends Component {
                         <Text style={styles.modalText}>
                             Animal Gender: {this.state.animalGender}
                         </Text>
+                        <Button
+                            onPress={() => {
+                                this.toggleModal();
+                                this.presentLocalNotification(this.state.animalSize, this.state.animalAge, this.state.animalBreed, this.state.animalGender);
+                                this.resetForm();
+                            }}
+                            color='#5637DD'
+                            title='Search'
+                        />
                         <Button
                             onPress={() => {
                                 this.toggleModal();
