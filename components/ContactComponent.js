@@ -1,11 +1,21 @@
 import React, { Component} from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { Card, Button, Icon } from 'react-native-elements';
+import * as MailComposer from 'expo-mail-composer';
 
 class Contact extends Component {
 
     static navigationOptions = {
         title: 'Contact Us'
+    }
+
+    sendMail() {
+        MailComposer.composeAsync({
+            recipients: ['campsites@nucamp.co'],
+            subject: 'Inquiry',
+            body: 'To whom it may concern:'
+        })
     }
 
     render() {
@@ -22,6 +32,17 @@ class Contact extends Component {
                             <Text>Auburn, NE 68305
                             </Text>
                         </View>
+                        <Button
+                            title="Send Email"
+                            buttonStyle={{backgroundColor: '#5637DD', margin: 40}}
+                            icon={<Icon
+                                name='envelope-o'
+                                type='font-awesome'
+                                color='#fff'
+                                iconStyle={{marginRight: 10}}
+                            />}
+                            onPress={() => this.sendMail()}
+                        />
                         <Text style={styles.loadingText}>By Email</Text><Text></Text>
                         <Text>You can email us at hua@hua.org.  Email inquiries receive the quickest response. </Text><Text></Text> 
 
