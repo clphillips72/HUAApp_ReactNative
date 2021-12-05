@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View, FlatList, PanResponder, Alert } from 'react-native';
+import { ScrollView, Text, View, FlatList, PanResponder, Alert, Share, StyleSheet } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 // import { ANIMALS } from '../shared/animals';
 import { connect } from 'react-redux';
@@ -57,6 +57,16 @@ function RenderAnimal(props) {
         }
     });
 
+    const shareAnimal = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: `${title}: ${message} ${url}`,
+            url: url
+        },{
+            dialogTitle: 'Share ' + title
+        });
+    };
+
     if (animal) {
         return (
             <Animatable.View
@@ -84,15 +94,25 @@ function RenderAnimal(props) {
                     <Text style={{margin: 10}}>
                         Gender: {animal.gender}
                     </Text>
-                    <Icon
-                        name={props.favorite ? 'heart' : 'heart-o'}
-                        type='font-awesome'
-                        color='#f50'
-                        raised
-                        reverse
-                        onPress={() => props.favorite ? 
-                        console.log('Already set as a favorite') : props.markFavorite()}
-                    />
+                    <View style={styles.cardRow}> 
+                        <Icon
+                            name={props.favorite ? 'heart' : 'heart-o'}
+                            type='font-awesome'
+                            color='#f50'
+                            raised
+                            reverse
+                            onPress={() => props.favorite ? 
+                            console.log('Already set as a favorite') : props.markFavorite()}
+                        />
+                        <Icon
+                            name={'share'}
+                            type='font-awesome'
+                            color='#5637DD'
+                            raised
+                            reverse
+                            onPress={() => shareAnimal(animal.name, animal.description, baseUrl + animal.image)} 
+                        />
+                    </View>
                 </Card>
             </Animatable.View>
         );
@@ -141,5 +161,14 @@ class AnimalInfo extends Component {
         )
     }    
 }
+
+const styles = StyleSheet.create({
+    cardRow: {
+        alignItems: 'center',
+        flex: 1,
+        flexDirection: 'row',
+        margin: 20
+    }  
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnimalInfo);
